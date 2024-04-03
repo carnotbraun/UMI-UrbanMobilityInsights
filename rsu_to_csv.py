@@ -4,7 +4,7 @@ import pickle
 
 # Folder path
 folder_path = '/Users/carnotbraun/tese-mestrado/simu/data/lust_edges'
-
+#Adapt the range for all in the folder path
 for rsu_id in range(6):
     # Creating a list to store the DataFrames of each CSV file
     dfs = []
