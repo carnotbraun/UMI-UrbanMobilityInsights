@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Caminho da pasta com os arquivos CSV
-folder_path = '/Users/carnotbraun/tese-mestrado/simu/data/rsus_lust_csv'
+folder_path = '/Users/carnotbraun/tese-mestrado/simu/data/rsus_most_csv'
 
 # Lista para armazenar os DataFrames de cada arquivo
 dfs = []
@@ -36,6 +36,6 @@ plt.figure(figsize=(10, 8))
 ax = sns.heatmap(pivot_df_transposed, cmap='gnuplot_r')
 ax.set_yticks([])
 ax.set_xticks([])
-plt.title('Lust Co2 Emission')
+plt.title('MoST Co2 Emission')
 plt.savefig('Co2_heatmap')
 plt.show()
