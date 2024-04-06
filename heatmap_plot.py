@@ -4,7 +4,7 @@ import seaborn as sns
 import matplotlib.pyplot as plt
 
 # Caminho da pasta com os arquivos CSV
-folder_path = '/Users/carnotbraun/tese-mestrado/simu/data/rsus_most_csv'
+folder_path = '/Users/carnotbraun/tese-mestrado/simu/data/rsus_cologne_csv'
 
 # Lista para armazenar os DataFrames de cada arquivo
 dfs = []
@@ -29,13 +29,13 @@ merged_df = pd.concat(dfs)
 pivot_df = merged_df.pivot_table(index='rsu_id', columns='step', values='c02_emission', aggfunc='sum')
 
 # Transpondo o DataFrame
-pivot_df_transposed = pivot_df.T
+#pivot_df_transposed = pivot_df.T
 
 # Cria o heatmap sem legenda e números de passo no eixo y
 plt.figure(figsize=(10, 8))
-ax = sns.heatmap(pivot_df_transposed, cmap='gnuplot_r')
+ax = sns.heatmap(pivot_df, cmap='gnuplot_r')
 ax.set_yticks([])
 ax.set_xticks([])
 plt.title('MoST Co2 Emission')
-plt.savefig('Co2_heatmap')
+plt.savefig('MoST_Co2_heatmap')
 plt.show()
