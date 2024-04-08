@@ -1,48 +1,59 @@
-# Author: Carnot Braun
-# Email: carnotbraun@gmail.com
+# Author: Carnot Braun & Allan M. de Souza
+# Email: carnotbraun@gmail.com & allanms@unicamp.br
 # Description: Script for plotting a heatmap of CO2 emissions from RSUs.
 
 import os
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
+ 
+def load_rsus_data(folder_path):
+    """Load CO2 data from RSUs from CSV files in a folder."""
+    dfs = []
+    for filename in os.listdir(folder_path):
+        if filename.endswith('.csv'):
+            file_path = os.path.join(folder_path, filename)
+            rsu_id = extract_rsu_id(filename)
+            try:
+                df = pd.read_csv(file_path, sep=',', header=0)
+                # 15 minutes interval
+                df['step'] = pd.to_datetime(df['step'], unit='s')
+                df = df.groupby([pd.Grouper(key='step', freq='600s')]).sum().reset_index()
+                df['step'] = pd.to_datetime(df['step']).dt.strftime('%H:%M')
+                df['rsu_id'] = int(rsu_id)
+                dfs.append(df)
+            except Exception as e:
+                print(f"Error while reading file {filename}: {str(e)}")
+    return pd.concat(dfs)
 
-# Add dictictory to use as label for the environment > 1 = lust, 2 = most, 3 = cologne
-env = {1: 'lust', 2: 'most', 3: 'cologne'}
+def extract_rsu_id(filename):
+    """Extract the RSU ID from the file name."""
+    return filename.split('_')[-1].split('.')[0]
 
-# Caminho da pasta com os arquivos CSV
-folder_path = f'/Users/carnotbraun/tese-mestrado/simu/data/rsus_{env[2]}_csv'
+def plot_heatmap(data, environment):
+    """Plot a heatmap of CO2 emissions from RSUs."""
+    plt.figure(figsize=(6, 4))
+    ax = sns.heatmap(data, cmap='gnuplot_r')
+    ax.set_xlabel('Horário do Dia')
+    ax.set_ylabel('RSU')
+    #plt.title(f'{environment} CO2 Emission')
+    plt.savefig(f'{environment.lower()}_co2_heatmap', dpi=300, bbox_inches='tight')
+    plt.show()
 
-# Lista para armazenar os DataFrames de cada arquivo
-dfs = []
+def main():
+    """Main function."""
+    env = {1: 'Lust', 2: 'Most', 3: 'Cologne'}
+    env_id = 2  # Change to the desired environment
+    folder_path = f'/Users/carnotbraun/tese-mestrado/simu/data/rsus_{env[env_id].lower()}_csv'
+    try:
+        data = load_rsus_data(folder_path)
+        data = data.set_index('rsu_id')
+        data = data.reset_index()
+        print(data.head())
+        pivot_df = data.pivot_table(index='rsu_id', columns='step', values='c02_emission', aggfunc='sum')
+        plot_heatmap(pivot_df, env[env_id])
+    except Exception as e:
+        print(f"Error during script execution: {str(e)}")
 
-# Itera sobre todos os arquivos na pasta
-for filename in os.listdir(folder_path):
-    if filename.endswith('.csv'):
-        file_path = os.path.join(folder_path, filename)
-        # Obtém o rsu_id a partir do nome do arquivo
-        rsu_id = filename.split('_')[-1].split('.')[0]
-        # Lê o arquivo CSV e adiciona ao DataFrame
-        df = pd.read_csv(file_path, sep=',', header=0)
-        # Adiciona uma coluna 'rsu_id' com o ID da RSU
-        df['rsu_id'] = rsu_id
-        dfs.append(df)
-
-# Concatena todos os DataFrames em um único DataFrame
-merged_df = pd.concat(dfs)
-
-# Pivotando o DataFrame pelo rsu_id
-# Não esquecer que a antiga base de dados era c02 não co2
-pivot_df = merged_df.pivot_table(index='rsu_id', columns='step', values='c02_emission', aggfunc='sum')
-
-# Transpondo o DataFrame
-#pivot_df_transposed = pivot_df.T
-
-# Cria o heatmap sem legenda e números de passo no eixo y
-plt.figure(figsize=(10, 8))
-ax = sns.heatmap(pivot_df, cmap='gnuplot_r')
-ax.set_yticks([])
-ax.set_xticks([])
-plt.title(f'{env[2]} co2 Emission')
-plt.savefig(f'{env[2]}_co2_heatmap')
-plt.show()
+if __name__ == "__main__":
+    main()
