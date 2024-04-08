@@ -1,7 +1,12 @@
+# Author: Carnot Braun
+# Email: carnotbraun@gmail.com
+# Description: Script for extracting road data from SUMO simulation.
+
 import os
 import sys
 import csv
-
+# Add dictictory to use as label for the environment > 1 = lust, 2 = most, 3 = cologne
+env = {1: 'lust', 2: 'most', 3: 'cologne'}
 # Add SUMO tools directory to the system path
 sys.path.append(os.path.join('c:', os.sep, '/Users/carnotbraun/tese-mestrado/simu/sumo/tools'))
 
@@ -12,7 +17,8 @@ import sumolib
 # Function to execute the SUMO simulation
 def run_simulation(config_file):
     sumo_exec = "/Users/carnotbraun/tese-mestrado/simu/sumo/bin/sumo"
-    sumo_cmd = [sumo_exec, "-c", config_file, "--tripinfo-output", 'output.xml', "--scale", '0.3']
+    sumo_cmd = [sumo_exec, "-c", config_file, "--tripinfo-output", 
+                'output.xml', "--scale", '0.3']
     
     try:
         traci.start(sumo_cmd)
@@ -31,7 +37,7 @@ def run_simulation(config_file):
                     average_vehicles = traci.edge.getLastStepVehicleNumber(edge)
                     noise_emission = traci.edge.getNoiseEmission(edge)
                     
-                    filepath = f'/Users/carnotbraun/tese-mestrado/simu/data/lust_test/{edge}.csv'
+                    filepath = f'/Users/carnotbraun/tese-mestrado/simu/data/{env[1]}_edges/{edge}.csv'
                     
                     with open(filepath, 'a') as road_file:
                         writer = csv.writer(road_file)

@@ -1,10 +1,17 @@
+# Author: Carnot Braun
+# Email: carnotbraun@gmail.com
+# Description: Script for plotting a heatmap of CO2 emissions from RSUs.
+
 import os
 import pandas as pd
 import seaborn as sns
 import matplotlib.pyplot as plt
 
+# Add dictictory to use as label for the environment > 1 = lust, 2 = most, 3 = cologne
+env = {1: 'lust', 2: 'most', 3: 'cologne'}
+
 # Caminho da pasta com os arquivos CSV
-folder_path = '/Users/carnotbraun/tese-mestrado/simu/data/rsus_cologne_csv'
+folder_path = f'/Users/carnotbraun/tese-mestrado/simu/data/rsus_{env[2]}_csv'
 
 # Lista para armazenar os DataFrames de cada arquivo
 dfs = []
@@ -36,6 +43,6 @@ plt.figure(figsize=(10, 8))
 ax = sns.heatmap(pivot_df, cmap='gnuplot_r')
 ax.set_yticks([])
 ax.set_xticks([])
-plt.title('MoST Co2 Emission')
-plt.savefig('MoST_Co2_heatmap')
+plt.title(f'{env[2]} co2 Emission')
+plt.savefig(f'{env[2]}_co2_heatmap')
 plt.show()

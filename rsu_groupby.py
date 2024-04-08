@@ -1,9 +1,16 @@
+# Author: Carnot Braun
+# Email: carnotbraun@gmail.com
+# Description: Script for grouping RSUs by covered roads.
+
 import os
 import csv
 from bs4 import BeautifulSoup
 from scipy.spatial.distance import euclidean
 import traci
 import pickle
+
+# Add dictictory to use as label for the environment > 1 = lust, 2 = most, 3 = cologne
+env = {1: 'lust', 2: 'most', 3: 'cologne'}
 
 # Create Road Network Graph Representation
 def read_network(network_file):
@@ -26,7 +33,7 @@ def read_network(network_file):
 def get_rsus():
     rsus = []
 
-    with open('/Users/carnotbraun/tese-mestrado/simu/utils/rsus_lust_v0.txt', 'r') as rsu_file:
+    with open(f'/Users/carnotbraun/tese-mestrado/simu/utils/rsus_{env[1]}.txt', 'r') as rsu_file:
         for line in rsu_file:
             line = line.strip().split('\t')
             rsus.append({'x': float(line[0]), 'y': float(line[1])})
@@ -72,7 +79,7 @@ def main():
     edges_per_rsu = get_covered_roads(rsus, edges)
 
     # Read data from CSV files
-    csv_files = [f'/Users/carnotbraun/tese-mestrado/simu/data/lust_edges/{edge}.csv' for rsu_edges in edges_per_rsu.values() for edge in rsu_edges]
+    csv_files = [f'/Users/carnotbraun/tese-mestrado/simu/data/{env[1]}_edges/{edge}.csv' for rsu_edges in edges_per_rsu.values() for edge in rsu_edges]
     roads_in_rsu = {}
 
     for csv_file in csv_files:
@@ -88,7 +95,7 @@ def main():
 
     # Save covered roads for each RSU
     for rsu in edges_per_rsu:
-        with open(f'/Users/carnotbraun/tese-mestrado/simu/data/lust_test/RSU_{rsu}.pickle', 'wb') as rsu_file:
+        with open(f'/Users/carnotbraun/tese-mestrado/simu/data/rsus_{env[1]}/RSU_{rsu}.pickle', 'wb') as rsu_file:
             print(f'Writing Roads Covered by RSU {rsu}...')
             pickle.dump(edges_per_rsu[rsu], rsu_file, protocol=pickle.HIGHEST_PROTOCOL)
 
