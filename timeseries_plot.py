@@ -35,11 +35,12 @@ def plot_co2_emission_over_time(data):
     plt.xlabel('Horário do Dia')
     plt.ylabel('Emissão de CO2 (g)')
     plt.grid(True)
+    plt.savefig(f'co2_timeserie', dpi=300, bbox_inches='tight')
     plt.show()
 
 def main():
     """Main function."""
-    env_id = 1  # Change to the desired environment ID
+    env_id = 3  # Change to the desired environment ID
     data = load_data(env_id)
     plot_co2_emission_over_time(data)
 

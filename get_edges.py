@@ -1,11 +1,12 @@
-# Author: Carnot Braun
-# Email: carnotbraun@gmail.com
+# Author: Carnot Braun & Allan M. de Souza
+# Email: carnotbraun@gmail.com & allanms@unicamp.br
 # Description: Script for extracting road data from SUMO simulation.
 
 import os
 import sys
 import csv
-# Add dictictory to use as label for the environment > 1 = lust, 2 = most, 3 = cologne
+
+# Add dict to use as label for the environment > 1 = lust, 2 = most, 3 = cologne
 env = {1: 'lust', 2: 'most', 3: 'cologne'}
 # Add SUMO tools directory to the system path
 sys.path.append(os.path.join('c:', os.sep, '/Users/carnotbraun/tese-mestrado/simu/sumo/tools'))
