@@ -4,10 +4,10 @@ This repository contains the source code, scripts, and data used in the research
 
 ## Timeseries 
 LuST | Cologne | MoST
-:-------------------------:|:-----------------------------------:
+:-------------------------:|:-----------------------------------:|:-------------------------------:
 ![](imgs/lust_co2_heatmap.png) | ![](imgs/cologne_co2_heatmap.png) | ![](imgs/most_co2_heatmap.png)
 
 ## Heatmap
 LuST | Cologne | MoST
-:-------------------------:|:-----------------------------------:
+:-------------------------:|:-----------------------------------:|:-------------------------------:
 ![](imgs/rsu_lust.png) | ![](imgs/rsu_cologne.png) | ![](imgs/rsu_most.png)
