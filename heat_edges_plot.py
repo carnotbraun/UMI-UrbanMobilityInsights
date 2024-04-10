@@ -128,6 +128,7 @@ axs.set_xlim(min_x - x_padding, max_x + x_padding)
 axs.set_ylim(min_y - y_padding, max_y + y_padding)
 
 # Add colorbar
+print('Adding colorbar ...')
 plt.colorbar(color_scale, ax=axs)
 plt.title('MoST Edges CO2')
 plt.show()
