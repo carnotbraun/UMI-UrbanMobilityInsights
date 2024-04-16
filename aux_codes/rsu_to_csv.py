@@ -1,3 +1,8 @@
+# Author: Carnot Braun & Allan M. de Souza
+# Email: carnotbraun@gmail.com & allanms@unicamp.br
+# Description: This script reads the list of edges for each RSU and converts the data from the CSV
+# files to a single CSV file for each RSU.
+
 import pandas as pd
 import os
 import pickle
