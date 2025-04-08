@@ -11,14 +11,14 @@ import numpy as np
 from bs4 import BeautifulSoup
 
 # Add SUMO tools directory to the system path
-sys.path.append(os.path.join('c:', os.sep, '/Users/carnotbraun/tese-mestrado/simu/sumo/tools'))
+sys.path.append(os.path.join('c:', os.sep, '../simu/sumo/tools'))
 
 import traci
 import sumolib
 from folium.plugins import HeatMap
 
 # Read SUMO network
-NET_FILE = '/Users/carnotbraun/tese-mestrado/simu/TAPASCologne/cologne.net.xml'
+NET_FILE = '../simu/TAPASCologne/cologne.net.xml'
 net = sumolib.net.readNet(NET_FILE)
 
 def get_edges(net):
@@ -53,9 +53,9 @@ def get_values(df):
     values = []
 
     # Open the file for writing
-    with open('/Users/carnotbraun/tese-mestrado/code/co2_tapas.txt', 'a') as file:
+    with open('../code/co2_tapas.txt', 'a') as file:
         # Loop through CSV files in the directory
-        PATH_RSU = '/Users/carnotbraun/tese-mestrado/simu/data/rsus_cologne_csv/'
+        PATH_RSU = '../simu/data/rsus_cologne_csv/'
         for file_name in os.listdir(PATH_RSU):
             if file_name.endswith('.csv'):
                 file_path = os.path.join(PATH_RSU, file_name)
